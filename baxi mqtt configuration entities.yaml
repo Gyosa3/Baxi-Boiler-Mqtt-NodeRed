@@ -1,0 +1,102 @@
+climate:
+  - platform: mqtt
+    name: Baxi Neodens Plus Eco 33kW
+    icon: mdi:water-boiler
+    unique_id: "Baxi-boiler-mqtt"
+    modes:
+      - "heat"
+      - "cool"
+      - "off"
+    temperature_command_topic: "home/thermostat_baxi_connect/current_setpoint/set"
+    temperature_state_topic: "home/thermostat_baxi_connect/current_setpoint"
+    temperature_state_template: "{{ value_json|float }}"
+    current_temperature_topic: "home/thermostat_baxi_connect/current_temperature"
+    current_temperature_template: "{{ value_json|float }}"
+    #mode_command_topic: "home/thermostat_baxi_connect/mode_filtered/set"
+    mode_state_topic: "home/thermostat_baxi_connect/mode_filtered"
+    action_topic: "home/thermostat_baxi_connect/action"
+    temperature_unit: C
+    max_temp: 30
+    min_temp: 7
+    precision: 0.5
+    temp_step: 0.5
+    retain: true
+
+sensor:
+  - platform: mqtt
+    name: "Baxi thermostat connection Status"
+    state_topic: "home/thermostat_baxi_connect/connection"
+    #value_template: "{{ value_json }}"  
+    icon: mdi:expansion-card
+
+  - platform: mqtt
+    name: "Baxi thermostat current mode"
+    state_topic: "home/thermostat_baxi_connect/mode"
+    #value_template: "{{ value_json }}"  
+    icon: mdi:calendar-blank-multiple
+
+  - platform: mqtt
+    name: "Baxi thermostat current display mode"
+    state_topic: "home/thermostat_baxi_connect/display_mode"
+    #value_template: "{{ value_json }}"  
+    icon: mdi:calendar-blank-multiple
+
+  - platform: mqtt
+    name: "Baxi thermostat current action"
+    state_topic: "home/thermostat_baxi_connect/action"
+    #value_template: "{{ value_json }}"  
+    icon: mdi:calendar-blank-multiple
+
+  - platform: mqtt
+    name: "Baxi thermostat current temperature"
+    state_topic: "home/thermostat_baxi_connect/current_temperature"
+    value_template: "{{ value_json|float }}"
+    unit_of_measurement: 'ºC'
+    icon: mdi:thermometer
+    
+  - platform: mqtt
+    name: "Baxi thermostat current setpoint"
+    state_topic: "home/thermostat_baxi_connect/current_setpoint"
+    value_template: "{{ value_json|float }}"
+    unit_of_measurement: 'ºC'
+    icon: mdi:thermometer-plus
+
+  - platform: mqtt
+    name: "Baxi thermostat water preassure"
+    state_topic: "home/thermostat_baxi_connect/water_preassure"
+    value_template: "{{ value_json|float }}"
+    unit_of_measurement: 'bar'
+    icon: mdi:speedometer
+
+  - platform: mqtt
+    name: "Baxi thermostat flow temperature"
+    state_topic: "home/thermostat_baxi_connect/flow_temperature"
+    value_template: "{{ value_json|float }}"
+    unit_of_measurement: 'ºC'
+    icon: mdi:thermometer-chevron-up
+
+  - platform: mqtt
+    name: "Baxi thermostat current errors"
+    state_topic: "home/thermostat_baxi_connect/current_errors"
+    icon: mdi:alert-circle-check-outline
+
+  - platform: mqtt
+    name: "Baxi thermostat error code"
+    state_topic: "home/thermostat_baxi_connect/current_errors_code"
+    icon: mdi:alert-circle-outline
+    
+  - platform: mqtt
+    name: "Baxi thermostat next switch Time"
+    state_topic: "home/thermostat_baxi_connect/schedule/next_switch/time"
+    icon: mdi:calendar-clock
+    
+  - platform: mqtt
+    name: "Baxi thermostat next switch Setpoint"
+    state_topic: "home/thermostat_baxi_connect/schedule/next_switch/setpoint"
+    unit_of_measurement: 'ºC'
+    icon: mdi:thermometer-plus
+    
+  - platform: mqtt
+    name: "Baxi thermostat program"
+    state_topic: "home/thermostat_baxi_connect/schedule/program"
+    icon: mdi:calendar-month

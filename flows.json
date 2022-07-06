@@ -1,0 +1,2387 @@
+[
+    {
+        "id": "b47daa00.599278",
+        "type": "tab",
+        "label": "Baxi Boiler workflow",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "2bf5d43b.d7ef2c",
+        "type": "http request",
+        "z": "b47daa00.599278",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://remoteapp.bdrthermea.com/user/baxi/login",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 630,
+        "y": 80,
+        "wires": [
+            [
+                "9301f0e8.3ecf4"
+            ]
+        ]
+    },
+    {
+        "id": "cb1cbc07.158a2",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "set POST authentication",
+        "func": "msg.payload = '{\"username\": \"your_username\",\"password\": \"your_password\"}';\nmsg.headers = {};\nmsg.headers['Host'] = 'remoteapp.bdrthermea.com';\nmsg.headers['Connection'] = 'keep-alive';\nmsg.headers['Content-Length'] = '61';\nmsg.headers['Accept'] = 'application/json, text/plain, */*';\nmsg.headers['Accept-Language'] = 'ca-ES';\nmsg.headers['Content-Type'] = 'application/json;charset=UTF-8';\nmsg.headers['X-Requested-With'] = 'com.bdrthermea.roomunitapplication.baxi';\nmsg.headers['Sec-Fetch-Site'] = 'cross-site';\nmsg.headers['Sec-Fetch-Mode'] = 'cors';\nmsg.headers['Sec-Fetch-Dest'] = 'empty';\nmsg.headers['Accept-Encoding'] = 'gzip, deflate';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 80,
+        "wires": [
+            [
+                "2bf5d43b.d7ef2c"
+            ]
+        ]
+    },
+    {
+        "id": "9301f0e8.3ecf4",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "parse response into string",
+        "func": "msg.payload = msg.payload.toString(\"utf8\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 80,
+        "wires": [
+            [
+                "bba73b08.77e0a8"
+            ]
+        ]
+    },
+    {
+        "id": "acbf17e9.982f28",
+        "type": "inject",
+        "z": "b47daa00.599278",
+        "name": "Read",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "5",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 80,
+        "wires": [
+            [
+                "cb1cbc07.158a2"
+            ]
+        ]
+    },
+    {
+        "id": "bba73b08.77e0a8",
+        "type": "json",
+        "z": "b47daa00.599278",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 1050,
+        "y": 80,
+        "wires": [
+            [
+                "a8edec61.6a337"
+            ]
+        ]
+    },
+    {
+        "id": "6725ed67.d5ed94",
+        "type": "http request",
+        "z": "b47daa00.599278",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://ruapi.remoteapp.bdrthermea.com/v1.0/pairings",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 630,
+        "y": 160,
+        "wires": [
+            [
+                "9b390483.a7e698"
+            ]
+        ]
+    },
+    {
+        "id": "73e2957.4433c6c",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "set POST Pairing",
+        "func": "msg.payload = '{\"account\":\"your_username\",\"brand\":\"baxi\",\"password\":\"your_password\",\"device\":\"NodeRed\",\"otp\":\"your_otp\"}';\nmsg.headers = {};\nmsg.headers['Host'] = 'ruapi.remoteapp.bdrthermea.com';\nmsg.headers['Connection'] = 'keep-alive';\nmsg.headers['Content-Length'] = '110';\nmsg.headers['Accept'] = 'application/json, text/plain, */*';\nmsg.headers['Authorization'] = 'Basic cnVhcHA6V25AW1tjJF1QfjghM2AoW35BZiUnSDI/bEh3XWNpaXE6cn1MT3pqTGsueTVNSCtfcT0=';\nmsg.headers['Content-Type'] = 'application/json';\nmsg.headers['X-Requested-With'] = 'com.bdrthermea.roomunitapplication.baxi';\nmsg.headers['Sec-Fetch-Site'] = 'cross-site';\nmsg.headers['Sec-Fetch-Mode'] = 'cors';\nmsg.headers['Sec-Fetch-Dest'] = 'empty';\nmsg.headers['Accept-Encoding'] = 'gzip, deflate';\nmsg.headers['Accept-Language'] = 'ca-ES,ca;q=0.9,en-US;q=0.8,en;q=0.7';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 160,
+        "wires": [
+            [
+                "6725ed67.d5ed94"
+            ]
+        ]
+    },
+    {
+        "id": "dda6cf7b.9ccfb",
+        "type": "inject",
+        "z": "b47daa00.599278",
+        "name": "Read",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "5",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 160,
+        "wires": [
+            [
+                "73e2957.4433c6c"
+            ]
+        ]
+    },
+    {
+        "id": "9b390483.a7e698",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "parse response into string",
+        "func": "msg.payload = msg.payload.toString(\"utf8\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 160,
+        "wires": [
+            [
+                "2ff598d3.a4eae8"
+            ]
+        ]
+    },
+    {
+        "id": "2ff598d3.a4eae8",
+        "type": "json",
+        "z": "b47daa00.599278",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 1050,
+        "y": 160,
+        "wires": [
+            [
+                "6d9145b3.4d75cc"
+            ]
+        ]
+    },
+    {
+        "id": "6d9145b3.4d75cc",
+        "type": "debug",
+        "z": "b47daa00.599278",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1230,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "f5f5756f.2d1cc8",
+        "type": "comment",
+        "z": "b47daa00.599278",
+        "name": "INIT - AUTHENTICATION  (do once)",
+        "info": "",
+        "x": 160,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "a8edec61.6a337",
+        "type": "debug",
+        "z": "b47daa00.599278",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1230,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "7dd86ec0.6f67d",
+        "type": "http request",
+        "z": "b47daa00.599278",
+        "name": "GET check connection",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://ruapi.remoteapp.bdrthermea.com/v1.0/system/gateway/connection",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 600,
+        "y": 340,
+        "wires": [
+            [
+                "f385a668.bddd58"
+            ]
+        ]
+    },
+    {
+        "id": "f385a668.bddd58",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "parse response into string",
+        "func": "msg.payload = msg.payload.toString(\"utf8\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 850,
+        "y": 340,
+        "wires": [
+            [
+                "eaae9546.716be8"
+            ]
+        ]
+    },
+    {
+        "id": "eaae9546.716be8",
+        "type": "json",
+        "z": "b47daa00.599278",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 1050,
+        "y": 340,
+        "wires": [
+            [
+                "76847b45.f6c744"
+            ]
+        ]
+    },
+    {
+        "id": "359d8017.3dd9d",
+        "type": "http request",
+        "z": "b47daa00.599278",
+        "name": "GET current status",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://ruapi.remoteapp.bdrthermea.com/v1.0/central-heating-zone/1E10FFFFFFFF010/status",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 590,
+        "y": 740,
+        "wires": [
+            [
+                "95bc8c35.d31c9"
+            ]
+        ]
+    },
+    {
+        "id": "c00ad643.7b2338",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "add header",
+        "func": "msg.headers = {};\nmsg.headers['Host'] = 'ruapi.remoteapp.bdrthermea.com';\nmsg.headers['Connection'] = 'keep-alive';\nmsg.headers['Accept'] = 'application/json, text/plain, */*';\nmsg.headers['X-Bdr-Pairing-Token'] = 'your_authorisation_token';\nmsg.headers['Authorization'] = 'Basic cnVhcHA6V25AW1tjJF1QfjghM2AoW35BZiUnSDI/bEh3XWNpaXE6cn1MT3pqTGsueTVNSCtfcT0=';\nmsg.headers['X-Requested-With'] = 'com.bdrthermea.roomunitapplication.baxi';\nmsg.headers['Sec-Fetch-Site'] = 'cross-site';\nmsg.headers['Sec-Fetch-Mode'] = 'cors';\nmsg.headers['Sec-Fetch-Dest'] = 'empty';\nmsg.headers['Accept-Encoding'] = 'gzip, deflate';\nmsg.headers['Accept-Language'] = 'ca-ES,ca;q=0.9,en-US;q=0.8,en;q=0.7';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 380,
+        "wires": [
+            [
+                "359d8017.3dd9d",
+                "7dd86ec0.6f67d",
+                "33872225.910e9e",
+                "6880afd9.70d06",
+                "ee366204.ba434"
+            ]
+        ]
+    },
+    {
+        "id": "95bc8c35.d31c9",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "parse response into string",
+        "func": "msg.payload = msg.payload.toString(\"utf8\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 850,
+        "y": 740,
+        "wires": [
+            [
+                "efeefe6a.b0eda"
+            ]
+        ]
+    },
+    {
+        "id": "efeefe6a.b0eda",
+        "type": "json",
+        "z": "b47daa00.599278",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 1050,
+        "y": 740,
+        "wires": [
+            [
+                "faf7c101.5024d",
+                "b8c0f64a.d47288",
+                "1a641f6.ba3b7e1",
+                "adf8c94d.8191a8",
+                "76092b8d.78f264",
+                "264275ba.f5a9ea",
+                "cd4136b52c8f085a",
+                "b50ec6f16022ebf4"
+            ]
+        ]
+    },
+    {
+        "id": "faf7c101.5024d",
+        "type": "debug",
+        "z": "b47daa00.599278",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1230,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "de3d1b96.6a1f78",
+        "type": "mqtt out",
+        "z": "b47daa00.599278",
+        "name": "Get Current Temperature",
+        "topic": "home/thermostat_baxi_connect/current_temperature",
+        "qos": "0",
+        "retain": "true",
+        "broker": "99ab3ff6.4455d",
+        "x": 1470,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "43bb3acf.a028d4",
+        "type": "mqtt out",
+        "z": "b47daa00.599278",
+        "name": "Get Current Setpoint",
+        "topic": "home/thermostat_baxi_connect/current_setpoint",
+        "qos": "0",
+        "retain": "true",
+        "broker": "99ab3ff6.4455d",
+        "x": 1460,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "b8c0f64a.d47288",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "",
+        "func": "msg.payload = msg.payload.roomTemperature.value; \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1220,
+        "y": 460,
+        "wires": [
+            [
+                "de3d1b96.6a1f78",
+                "61ea0268.6392ac"
+            ]
+        ]
+    },
+    {
+        "id": "1a641f6.ba3b7e1",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "",
+        "func": "msg.payload = msg.payload.roomTemperatureSetpoint.value;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1220,
+        "y": 600,
+        "wires": [
+            [
+                "43bb3acf.a028d4",
+                "aee8f7f5.e84768"
+            ]
+        ]
+    },
+    {
+        "id": "3491891c.ba3296",
+        "type": "mqtt in",
+        "z": "b47daa00.599278",
+        "name": "Set Setpoint",
+        "topic": "home/thermostat_baxi_connect/current_setpoint/set",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "99ab3ff6.4455d",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 90,
+        "y": 1500,
+        "wires": [
+            [
+                "a6415414bf8e7e16"
+            ]
+        ]
+    },
+    {
+        "id": "f136af88.11c53",
+        "type": "template",
+        "z": "b47daa00.599278",
+        "name": "room temp",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\"roomTemperatureSetpoint\":{{payload}}}",
+        "output": "str",
+        "x": 1130,
+        "y": 1500,
+        "wires": [
+            [
+                "9f03c23d.f4748"
+            ]
+        ]
+    },
+    {
+        "id": "70fc916b.46ad9",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "add header",
+        "func": "msg.headers = {};\nmsg.headers['Host'] = 'ruapi.remoteapp.bdrthermea.com';\nmsg.headers['Connection'] = 'keep-alive';\nmsg.headers['Content-Length'] = '32';\nmsg.headers['Accept'] = 'application/json, text/plain, */*';\nmsg.headers['X-Bdr-Pairing-Token'] = 'your_authorisation_token';\nmsg.headers['Authorization'] = 'Basic cnVhcHA6V25AW1tjJF1QfjghM2AoW35BZiUnSDI/bEh3XWNpaXE6cn1MT3pqTGsueTVNSCtfcT0=';\nmsg.headers['Content-Type'] = 'application/json;charset=UTF-8';\nmsg.headers['X-Requested-With'] = 'com.bdrthermea.roomunitapplication.baxi';\nmsg.headers['Sec-Fetch-Site'] = 'cross-site';\nmsg.headers['Sec-Fetch-Mode'] = 'cors';\nmsg.headers['Sec-Fetch-Dest'] = 'empty';\nmsg.headers['Accept-Encoding'] = 'gzip, deflate';\nmsg.headers['Accept-Language'] = 'ca-ES,ca;q=0.9,en-US;q=0.8,en;q=0.7';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 1540,
+        "wires": [
+            [
+                "02d4238f88bfeb41"
+            ]
+        ]
+    },
+    {
+        "id": "9f03c23d.f4748",
+        "type": "http request",
+        "z": "b47daa00.599278",
+        "name": "T-Override",
+        "method": "PUT",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://ruapi.remoteapp.bdrthermea.com/v1.0/central-heating-zone/1E10FFFFFFFF010/setpoint/temporary-override",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 1290,
+        "y": 1500,
+        "wires": [
+            [
+                "de2afef820475021"
+            ]
+        ]
+    },
+    {
+        "id": "db2b9b41.1a5aa8",
+        "type": "comment",
+        "z": "b47daa00.599278",
+        "name": "SEND SETPOINT TEMPERATURE FROM HOME ASSISTANT TO THERMOSTAT",
+        "info": "",
+        "x": 330,
+        "y": 1460,
+        "wires": []
+    },
+    {
+        "id": "facee34f.5e7ba",
+        "type": "comment",
+        "z": "b47daa00.599278",
+        "name": "READ SETPOINT & CURRENT TEMPERATURE",
+        "info": "",
+        "x": 680,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "33872225.910e9e",
+        "type": "http request",
+        "z": "b47daa00.599278",
+        "name": "GET water preassure",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://ruapi.remoteapp.bdrthermea.com/v1.0/system/water-pressure",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 600,
+        "y": 1020,
+        "wires": [
+            [
+                "4a97dfe2.d57"
+            ]
+        ]
+    },
+    {
+        "id": "4a97dfe2.d57",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "parse response into string",
+        "func": "msg.payload = msg.payload.toString(\"utf8\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 850,
+        "y": 1020,
+        "wires": [
+            [
+                "8723e470.2b8768"
+            ]
+        ]
+    },
+    {
+        "id": "8723e470.2b8768",
+        "type": "json",
+        "z": "b47daa00.599278",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 1050,
+        "y": 1020,
+        "wires": [
+            [
+                "d126ea39.5447a8",
+                "fb910342.d5837"
+            ]
+        ]
+    },
+    {
+        "id": "d126ea39.5447a8",
+        "type": "debug",
+        "z": "b47daa00.599278",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1230,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "3d44c2d7.468a9e",
+        "type": "comment",
+        "z": "b47daa00.599278",
+        "name": "READ WATER PREASSURE",
+        "info": "",
+        "x": 620,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "ee366204.ba434",
+        "type": "http request",
+        "z": "b47daa00.599278",
+        "name": "GET error status",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://ruapi.remoteapp.bdrthermea.com/v1.0/system/error-status",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 580,
+        "y": 1300,
+        "wires": [
+            [
+                "32f59a5c.f90306"
+            ]
+        ]
+    },
+    {
+        "id": "32f59a5c.f90306",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "parse response into string",
+        "func": "msg.payload = msg.payload.toString(\"utf8\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 840,
+        "y": 1300,
+        "wires": [
+            [
+                "82723c85.2126c"
+            ]
+        ]
+    },
+    {
+        "id": "82723c85.2126c",
+        "type": "json",
+        "z": "b47daa00.599278",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 1040,
+        "y": 1300,
+        "wires": [
+            [
+                "30aa6701.2a8908",
+                "e45b8202.b43e2",
+                "b7ead4236f3974ae"
+            ]
+        ]
+    },
+    {
+        "id": "30aa6701.2a8908",
+        "type": "debug",
+        "z": "b47daa00.599278",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1220,
+        "y": 1340,
+        "wires": []
+    },
+    {
+        "id": "b446220d.87fbb",
+        "type": "comment",
+        "z": "b47daa00.599278",
+        "name": "READ ERROR STATUS",
+        "info": "",
+        "x": 600,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "6880afd9.70d06",
+        "type": "http request",
+        "z": "b47daa00.599278",
+        "name": "GET system temperature",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://ruapi.remoteapp.bdrthermea.com/v1.0/system/flow-temperature",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 610,
+        "y": 1140,
+        "wires": [
+            [
+                "5dfb3acf.4f3f54"
+            ]
+        ]
+    },
+    {
+        "id": "5dfb3acf.4f3f54",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "parse response into string",
+        "func": "msg.payload = msg.payload.toString(\"utf8\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 850,
+        "y": 1140,
+        "wires": [
+            [
+                "aaf92f4a.b3159"
+            ]
+        ]
+    },
+    {
+        "id": "aaf92f4a.b3159",
+        "type": "json",
+        "z": "b47daa00.599278",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 1050,
+        "y": 1140,
+        "wires": [
+            [
+                "ed0d1a34.31db18",
+                "292689fb.8ffe26"
+            ]
+        ]
+    },
+    {
+        "id": "ed0d1a34.31db18",
+        "type": "debug",
+        "z": "b47daa00.599278",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1230,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "e53b2945.b944c8",
+        "type": "comment",
+        "z": "b47daa00.599278",
+        "name": "READ SYSTEM TEMPERATURE",
+        "info": "",
+        "x": 630,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "bfc28d70.29b1e",
+        "type": "mqtt out",
+        "z": "b47daa00.599278",
+        "name": "Get Current Water Preassure",
+        "topic": "home/thermostat_baxi_connect/water_preassure",
+        "qos": "0",
+        "retain": "true",
+        "broker": "99ab3ff6.4455d",
+        "x": 1480,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "fb910342.d5837",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "",
+        "func": "msg.payload = msg.payload.waterPressure.value; \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1220,
+        "y": 1020,
+        "wires": [
+            [
+                "bfc28d70.29b1e"
+            ]
+        ]
+    },
+    {
+        "id": "2feb72d8.41d25e",
+        "type": "mqtt out",
+        "z": "b47daa00.599278",
+        "name": "Get Current Flow Temperature",
+        "topic": "home/thermostat_baxi_connect/flow_temperature",
+        "qos": "0",
+        "retain": "true",
+        "broker": "99ab3ff6.4455d",
+        "x": 1490,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "292689fb.8ffe26",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "",
+        "func": "msg.payload = msg.payload.systemFlowTemperature; \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1220,
+        "y": 1140,
+        "wires": [
+            [
+                "2feb72d8.41d25e"
+            ]
+        ]
+    },
+    {
+        "id": "cc313596.2d6a68",
+        "type": "mqtt out",
+        "z": "b47daa00.599278",
+        "name": "Get Current Errors",
+        "topic": "home/thermostat_baxi_connect/current_errors",
+        "qos": "0",
+        "retain": "true",
+        "broker": "99ab3ff6.4455d",
+        "x": 1450,
+        "y": 1300,
+        "wires": []
+    },
+    {
+        "id": "e45b8202.b43e2",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "",
+        "func": "msg.payload = msg.payload.status; \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1210,
+        "y": 1300,
+        "wires": [
+            [
+                "cc313596.2d6a68"
+            ]
+        ]
+    },
+    {
+        "id": "2aa13ddf.3f30d2",
+        "type": "mqtt out",
+        "z": "b47daa00.599278",
+        "name": "Get Current Mode for Display",
+        "topic": "home/thermostat_baxi_connect/display_mode",
+        "qos": "0",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "99ab3ff6.4455d",
+        "x": 2140,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "adf8c94d.8191a8",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "",
+        "func": "var current_mode = msg.payload.mode;\n\nif (current_mode == \"schedule\"){\n    msg.payload = msg.payload.nextSwitch.time;\n} else {\n    if (current_mode == \"temporary-override\"){\n        msg.payload = msg.payload.temporaryOverrideEnd;\n    } else {\n        msg.payload = \"00:00\";\n    }\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1220,
+        "y": 800,
+        "wires": [
+            [
+                "1d86c736.a15979"
+            ]
+        ]
+    },
+    {
+        "id": "1d86c736.a15979",
+        "type": "mqtt out",
+        "z": "b47daa00.599278",
+        "name": "Get Schedule Next Switch",
+        "topic": "home/thermostat_baxi_connect/schedule/next_switch/time",
+        "qos": "0",
+        "retain": "true",
+        "broker": "99ab3ff6.4455d",
+        "x": 1470,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "76092b8d.78f264",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "",
+        "func": "\nif (msg.payload.mode == \"schedule\") {\n    msg.payload = msg.payload.nextSwitch.roomTemperatureSetpoint.value;\n} else {\n   msg.payload = \"\";\n    }\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1220,
+        "y": 840,
+        "wires": [
+            [
+                "f3b66930.7faa38"
+            ]
+        ]
+    },
+    {
+        "id": "f3b66930.7faa38",
+        "type": "mqtt out",
+        "z": "b47daa00.599278",
+        "name": "Get Schedule Next Switch Setpoint",
+        "topic": "home/thermostat_baxi_connect/schedule/next_switch/setpoint",
+        "qos": "0",
+        "retain": "true",
+        "broker": "99ab3ff6.4455d",
+        "x": 1500,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "8f9971b.8434e9",
+        "type": "mqtt in",
+        "z": "b47daa00.599278",
+        "name": "Update status",
+        "topic": "home/thermostat_baxi_connect/status/update",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "99ab3ff6.4455d",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 110,
+        "y": 440,
+        "wires": [
+            [
+                "c00ad643.7b2338"
+            ]
+        ]
+    },
+    {
+        "id": "264275ba.f5a9ea",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "",
+        "func": "\nif ((msg.payload.mode == \"schedule\") || (msg.payload.mode == \"temporary-override\")) {\n    msg.payload = msg.payload.timeProgram;\n} else {\n   msg.payload = \"0\";\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1220,
+        "y": 760,
+        "wires": [
+            [
+                "a8c3270d.48e2c8"
+            ]
+        ]
+    },
+    {
+        "id": "a8c3270d.48e2c8",
+        "type": "mqtt out",
+        "z": "b47daa00.599278",
+        "name": "Get Schedule Program",
+        "topic": "home/thermostat_baxi_connect/schedule/program",
+        "qos": "0",
+        "retain": "true",
+        "broker": "99ab3ff6.4455d",
+        "x": 1460,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "fce062e4.c60e1",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "Displayed mode icon",
+        "func": "var connectionStatus = global.get(\"savedConnectionStatus\");\nvar filtered_mode = global.get(\"filtered_mode\");\n\nif(connectionStatus == \"connected_to_appliance\"){\n    if(filtered_mode == \"manual\"){\n        msg.payload = \"cool\";\n    } else {\n        msg.payload = \"heat\";\n    }\n} else{\n    msg.payload = \"off\";\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1880,
+        "y": 560,
+        "wires": [
+            [
+                "b5d8b6f5.fe7138",
+                "2eda9a5d.9e9a46"
+            ]
+        ]
+    },
+    {
+        "id": "aee8f7f5.e84768",
+        "type": "change",
+        "z": "b47daa00.599278",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "savedCurrentSetpoint",
+                "pt": "global",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1530,
+        "y": 540,
+        "wires": [
+            [
+                "8d37646989b58117"
+            ]
+        ]
+    },
+    {
+        "id": "61ea0268.6392ac",
+        "type": "change",
+        "z": "b47daa00.599278",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "savedCurrentTemperature",
+                "pt": "global",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1550,
+        "y": 440,
+        "wires": [
+            [
+                "8d37646989b58117"
+            ]
+        ]
+    },
+    {
+        "id": "b5d8b6f5.fe7138",
+        "type": "mqtt out",
+        "z": "b47daa00.599278",
+        "name": "Get Current Filtered Mode",
+        "topic": "home/thermostat_baxi_connect/mode_filtered",
+        "qos": "0",
+        "retain": "true",
+        "broker": "99ab3ff6.4455d",
+        "x": 2130,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "76847b45.f6c744",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "",
+        "func": "msg.payload = msg.payload.status; \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1220,
+        "y": 340,
+        "wires": [
+            [
+                "9db6a2be.3666d",
+                "b0ea239aa3190092",
+                "7c375657928958bb"
+            ]
+        ]
+    },
+    {
+        "id": "9db6a2be.3666d",
+        "type": "change",
+        "z": "b47daa00.599278",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "savedConnectionStatus",
+                "pt": "global",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1540,
+        "y": 380,
+        "wires": [
+            [
+                "fce062e4.c60e1",
+                "8d37646989b58117",
+                "0fd63bce55f9d64e"
+            ]
+        ]
+    },
+    {
+        "id": "9d0a82ec.d352d",
+        "type": "comment",
+        "z": "b47daa00.599278",
+        "name": "READ CONNECTION STATUS",
+        "info": "",
+        "x": 630,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "2eda9a5d.9e9a46",
+        "type": "debug",
+        "z": "b47daa00.599278",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2090,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "b7ead4236f3974ae",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "",
+        "func": "if(msg.payload.status == \"locking\"){\n    msg.payload = msg.payload.errorCode;\n} else{\n    msg.payload = \"no-error\";\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1210,
+        "y": 1260,
+        "wires": [
+            [
+                "24e9dc1161089efc"
+            ]
+        ]
+    },
+    {
+        "id": "24e9dc1161089efc",
+        "type": "mqtt out",
+        "z": "b47daa00.599278",
+        "name": "Get Error Code",
+        "topic": "home/thermostat_baxi_connect/current_errors_code",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "99ab3ff6.4455d",
+        "x": 1440,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "7634ceb40a4ba5f4",
+        "type": "inject",
+        "z": "b47daa00.599278",
+        "name": "Read",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 2140,
+        "wires": [
+            [
+                "6dd97245fceef276"
+            ]
+        ]
+    },
+    {
+        "id": "6dd97245fceef276",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "GET capabilities",
+        "func": "msg.headers = {};\nmsg.headers['Host'] = 'ruapi.remoteapp.bdrthermea.com';\nmsg.headers['Connection'] = 'keep-alive';\nmsg.headers['Accept'] = 'application/json, text/plain, */*';\nmsg.headers['X-Bdr-Pairing-Token'] = 'your_authorisation_token';\nmsg.headers['Authorization'] = 'Basic cnVhcHA6V25AW1tjJF1QfjghM2AoW35BZiUnSDI/bEh3XWNpaXE6cn1MT3pqTGsueTVNSCtfcT0=';\nmsg.headers['X-Requested-With'] = 'com.bdrthermea.roomunitapplication.baxi';\nmsg.headers['Sec-Fetch-Site'] = 'cross-site';\nmsg.headers['Sec-Fetch-Mode'] = 'cors';\nmsg.headers['Sec-Fetch-Dest'] = 'empty';\nmsg.headers['Accept-Encoding'] = 'gzip, deflate';\nmsg.headers['Accept-Language'] = 'ca-ES,ca;q=0.9,en-US;q=0.8,en;q=0.7';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 2140,
+        "wires": [
+            [
+                "de8d83d5e8992de0"
+            ]
+        ]
+    },
+    {
+        "id": "de8d83d5e8992de0",
+        "type": "http request",
+        "z": "b47daa00.599278",
+        "name": "Get capabilities",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://ruapi.remoteapp.bdrthermea.com/v1.0/capabilities",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 580,
+        "y": 2140,
+        "wires": [
+            [
+                "778dde9d71711209"
+            ]
+        ]
+    },
+    {
+        "id": "778dde9d71711209",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "",
+        "func": "msg.payload = msg.payload.toString(\"utf8\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 2140,
+        "wires": [
+            [
+                "5e7fe854b7852141"
+            ]
+        ]
+    },
+    {
+        "id": "5e7fe854b7852141",
+        "type": "json",
+        "z": "b47daa00.599278",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 970,
+        "y": 2140,
+        "wires": [
+            [
+                "2f8c773ecf9fd3c3"
+            ]
+        ]
+    },
+    {
+        "id": "2f8c773ecf9fd3c3",
+        "type": "debug",
+        "z": "b47daa00.599278",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1150,
+        "y": 2160,
+        "wires": []
+    },
+    {
+        "id": "eb96b24994819d76",
+        "type": "template",
+        "z": "b47daa00.599278",
+        "name": "room temp",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\"roomTemperatureSetpoint\":{{payload}}}",
+        "output": "str",
+        "x": 1770,
+        "y": 1560,
+        "wires": [
+            [
+                "0286b7bfecdea670"
+            ]
+        ]
+    },
+    {
+        "id": "03e518a232919518",
+        "type": "http request",
+        "z": "b47daa00.599278",
+        "name": "Manual mode",
+        "method": "PUT",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://ruapi.remoteapp.bdrthermea.com/v1.0/central-heating-zone/1E10FFFFFFFF010/setpoint/manual",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 1280,
+        "y": 1440,
+        "wires": [
+            [
+                "3b41d1bed2bd087b"
+            ]
+        ]
+    },
+    {
+        "id": "b0ea239aa3190092",
+        "type": "mqtt out",
+        "z": "b47daa00.599278",
+        "name": "Get connection",
+        "topic": "home/thermostat_baxi_connect/connection",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "99ab3ff6.4455d",
+        "x": 1440,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "dc84cc26bc441f9b",
+        "type": "comment",
+        "z": "b47daa00.599278",
+        "name": "RECURRING READING STATES",
+        "info": "",
+        "x": 150,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "336e1084cd25e5b3",
+        "type": "comment",
+        "z": "b47daa00.599278",
+        "name": "SPECIAL - set actions",
+        "info": "",
+        "x": 120,
+        "y": 1380,
+        "wires": []
+    },
+    {
+        "id": "cd4136b52c8f085a",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "",
+        "func": "var current_mode = msg.payload.mode;\nvar next_mode = msg.payload.nextMode;\nvar program_number = msg.payload.timeProgram;\n\nif(current_mode == \"temporary-override\"){\n    msg.payload = next_mode + \" (TO)\";\n} else{\n    if(current_mode == \"schedule\") {\n        msg.payload = current_mode + \" (\" + program_number + \")\";\n    } else {\n        msg.payload = current_mode;\n    }\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1220,
+        "y": 660,
+        "wires": [
+            [
+                "55667a7c325934ae"
+            ]
+        ]
+    },
+    {
+        "id": "55667a7c325934ae",
+        "type": "change",
+        "z": "b47daa00.599278",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "filtered_mode",
+                "pt": "global",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1510,
+        "y": 660,
+        "wires": [
+            [
+                "fce062e4.c60e1",
+                "8d37646989b58117",
+                "0fd63bce55f9d64e"
+            ]
+        ]
+    },
+    {
+        "id": "8d37646989b58117",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "Displayed action",
+        "func": "var temp = global.get(\"savedCurrentTemperature\");\nvar setpoint = global.get(\"savedCurrentSetpoint\");\nvar connectionStatus = global.get(\"savedConnectionStatus\");\n\n\nif(connectionStatus == \"connected_to_appliance\"){\n    if(setpoint > temp){\n        msg.payload = \"heating\";\n    } else {\n        msg.payload = \"idle\";\n    }\n} else{\n    msg.payload = \"off\";\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1880,
+        "y": 480,
+        "wires": [
+            [
+                "b01fe04c9f0d1a9c",
+                "4ba05945a7a557ce"
+            ]
+        ]
+    },
+    {
+        "id": "f548a890a0854ce5",
+        "type": "comment",
+        "z": "b47daa00.599278",
+        "name": "Change pairing key here",
+        "info": "",
+        "x": 330,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "39dd500716cdcbf7",
+        "type": "comment",
+        "z": "b47daa00.599278",
+        "name": "Change OTP code here",
+        "info": "",
+        "x": 380,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "b01fe04c9f0d1a9c",
+        "type": "mqtt out",
+        "z": "b47daa00.599278",
+        "name": "Get Current Action Displayed",
+        "topic": "home/thermostat_baxi_connect/action",
+        "qos": "0",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "99ab3ff6.4455d",
+        "x": 2140,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "4ba05945a7a557ce",
+        "type": "debug",
+        "z": "b47daa00.599278",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2090,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "7c375657928958bb",
+        "type": "debug",
+        "z": "b47daa00.599278",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1450,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "02d4238f88bfeb41",
+        "type": "api-current-state",
+        "z": "b47daa00.599278",
+        "name": "Get current mode",
+        "server": "4bb170bf.b1e9d",
+        "version": 3,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "sensor.baxi_thermostat_current_mode",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "mode",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 610,
+        "y": 1500,
+        "wires": [
+            [
+                "33ae006093305826"
+            ]
+        ]
+    },
+    {
+        "id": "33ae006093305826",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "",
+        "func": "switch (msg.mode) {\n  case 'manual':\n      if (msg.temp > 17) {\n          msg.mode = \"schedule\";\n      } else { \n          msg.mode = \"manual\";\n      }\n    break;\n  case 'schedule':\n      msg.mode = \"override\";\n    break;\n  case 'temporary-override':\n      msg.mode = \"override\";\n    break;\n  default:\n      msg.mode = \"schedule\";\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 1500,
+        "wires": [
+            [
+                "c699c77ac912bb3f",
+                "0d02f68f7f84ee6f"
+            ]
+        ]
+    },
+    {
+        "id": "c699c77ac912bb3f",
+        "type": "switch",
+        "z": "b47daa00.599278",
+        "name": "",
+        "property": "mode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "manual",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "override",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "schedule",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 3,
+        "x": 950,
+        "y": 1500,
+        "wires": [
+            [
+                "47d201af821599da"
+            ],
+            [
+                "f136af88.11c53"
+            ],
+            [
+                "147c4e8ede8b0c79"
+            ]
+        ]
+    },
+    {
+        "id": "a6415414bf8e7e16",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "store temp",
+        "func": "msg.temp = msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 1500,
+        "wires": [
+            [
+                "70fc916b.46ad9"
+            ]
+        ]
+    },
+    {
+        "id": "47d201af821599da",
+        "type": "template",
+        "z": "b47daa00.599278",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\"roomTemperatureSetpoint\":{{payload}}}",
+        "output": "str",
+        "x": 1120,
+        "y": 1440,
+        "wires": [
+            [
+                "03e518a232919518"
+            ]
+        ]
+    },
+    {
+        "id": "de4142ae8ec56eaa",
+        "type": "http request",
+        "z": "b47daa00.599278",
+        "name": "Schedule mode",
+        "method": "PUT",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://ruapi.remoteapp.bdrthermea.com/v1.0/central-heating-zone/1E10FFFFFFFF010/setpoint/schedule",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 1300,
+        "y": 1560,
+        "wires": [
+            [
+                "e51e3c8411cec3cf"
+            ]
+        ]
+    },
+    {
+        "id": "147c4e8ede8b0c79",
+        "type": "template",
+        "z": "b47daa00.599278",
+        "name": "Schedule 1",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\"currentHeatingTimeProgram\":1}",
+        "output": "str",
+        "x": 1130,
+        "y": 1560,
+        "wires": [
+            [
+                "de4142ae8ec56eaa"
+            ]
+        ]
+    },
+    {
+        "id": "b50ec6f16022ebf4",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "",
+        "func": "msg.payload = msg.payload.mode;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1220,
+        "y": 720,
+        "wires": [
+            [
+                "af33b5bd7d60e0ce"
+            ]
+        ]
+    },
+    {
+        "id": "af33b5bd7d60e0ce",
+        "type": "mqtt out",
+        "z": "b47daa00.599278",
+        "name": "Get Current Mode",
+        "topic": "home/thermostat_baxi_connect/mode",
+        "qos": "0",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "99ab3ff6.4455d",
+        "x": 1450,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "46525e40b1169396",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "New payload",
+        "func": "msg.payload = msg.temp\nmsg.headers = {};\nmsg.headers['Host'] = 'ruapi.remoteapp.bdrthermea.com';\nmsg.headers['Connection'] = 'keep-alive';\nmsg.headers['Content-Length'] = '32';\nmsg.headers['Accept'] = 'application/json, text/plain, */*';\nmsg.headers['X-Bdr-Pairing-Token'] = 'your_authorisation_token';\nmsg.headers['Authorization'] = 'Basic cnVhcHA6V25AW1tjJF1QfjghM2AoW35BZiUnSDI/bEh3XWNpaXE6cn1MT3pqTGsueTVNSCtfcT0=';\nmsg.headers['Content-Type'] = 'application/json;charset=UTF-8';\nmsg.headers['X-Requested-With'] = 'com.bdrthermea.roomunitapplication.baxi';\nmsg.headers['Sec-Fetch-Site'] = 'cross-site';\nmsg.headers['Sec-Fetch-Mode'] = 'cors';\nmsg.headers['Sec-Fetch-Dest'] = 'empty';\nmsg.headers['Accept-Encoding'] = 'gzip, deflate';\nmsg.headers['Accept-Language'] = 'ca-ES,ca;q=0.9,en-US;q=0.8,en;q=0.7';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1610,
+        "y": 1560,
+        "wires": [
+            [
+                "eb96b24994819d76"
+            ]
+        ]
+    },
+    {
+        "id": "0286b7bfecdea670",
+        "type": "http request",
+        "z": "b47daa00.599278",
+        "name": "Override",
+        "method": "PUT",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://ruapi.remoteapp.bdrthermea.com/v1.0/central-heating-zone/1E10FFFFFFFF010/setpoint/temporary-override",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 1920,
+        "y": 1560,
+        "wires": [
+            [
+                "53ba6099eb7104ea"
+            ]
+        ]
+    },
+    {
+        "id": "e51e3c8411cec3cf",
+        "type": "delay",
+        "z": "b47daa00.599278",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1460,
+        "y": 1560,
+        "wires": [
+            [
+                "46525e40b1169396"
+            ]
+        ]
+    },
+    {
+        "id": "53ba6099eb7104ea",
+        "type": "mqtt out",
+        "z": "b47daa00.599278",
+        "name": "Update",
+        "topic": "home/thermostat_baxi_connect/status/update",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "99ab3ff6.4455d",
+        "x": 2060,
+        "y": 1560,
+        "wires": []
+    },
+    {
+        "id": "de2afef820475021",
+        "type": "mqtt out",
+        "z": "b47daa00.599278",
+        "name": "Update",
+        "topic": "home/thermostat_baxi_connect/status/update",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "99ab3ff6.4455d",
+        "x": 1440,
+        "y": 1500,
+        "wires": []
+    },
+    {
+        "id": "9bbc045ca752c89a",
+        "type": "comment",
+        "z": "b47daa00.599278",
+        "name": "SEND MODE CHANGE TO THERMOSTAT",
+        "info": "",
+        "x": 200,
+        "y": 1660,
+        "wires": []
+    },
+    {
+        "id": "3b41d1bed2bd087b",
+        "type": "mqtt out",
+        "z": "b47daa00.599278",
+        "name": "Update",
+        "topic": "home/thermostat_baxi_connect/status/update",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "99ab3ff6.4455d",
+        "x": 1440,
+        "y": 1440,
+        "wires": []
+    },
+    {
+        "id": "0d02f68f7f84ee6f",
+        "type": "debug",
+        "z": "b47daa00.599278",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 950,
+        "y": 1580,
+        "wires": []
+    },
+    {
+        "id": "27ee85449c3b6503",
+        "type": "mqtt in",
+        "z": "b47daa00.599278",
+        "name": "Set Mode",
+        "topic": "home/thermostat_baxi_connect/current_mode/set",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "99ab3ff6.4455d",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 80,
+        "y": 1700,
+        "wires": [
+            [
+                "1e5b8a293f17f78c"
+            ]
+        ]
+    },
+    {
+        "id": "1e5b8a293f17f78c",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "store mode",
+        "func": "msg.target = msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 1700,
+        "wires": [
+            [
+                "93f728c4e73a15fd"
+            ]
+        ]
+    },
+    {
+        "id": "93f728c4e73a15fd",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "add header",
+        "func": "msg.headers = {};\nmsg.headers['Host'] = 'ruapi.remoteapp.bdrthermea.com';\nmsg.headers['Connection'] = 'keep-alive';\nmsg.headers['Content-Length'] = '32';\nmsg.headers['Accept'] = 'application/json, text/plain, */*';\nmsg.headers['X-Bdr-Pairing-Token'] = 'your_authorisation_token';\nmsg.headers['Authorization'] = 'Basic cnVhcHA6V25AW1tjJF1QfjghM2AoW35BZiUnSDI/bEh3XWNpaXE6cn1MT3pqTGsueTVNSCtfcT0=';\nmsg.headers['Content-Type'] = 'application/json;charset=UTF-8';\nmsg.headers['X-Requested-With'] = 'com.bdrthermea.roomunitapplication.baxi';\nmsg.headers['Sec-Fetch-Site'] = 'cross-site';\nmsg.headers['Sec-Fetch-Mode'] = 'cors';\nmsg.headers['Sec-Fetch-Dest'] = 'empty';\nmsg.headers['Accept-Encoding'] = 'gzip, deflate';\nmsg.headers['Accept-Language'] = 'ca-ES,ca;q=0.9,en-US;q=0.8,en;q=0.7';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 1740,
+        "wires": [
+            [
+                "69a2a36734438544"
+            ]
+        ]
+    },
+    {
+        "id": "69a2a36734438544",
+        "type": "api-current-state",
+        "z": "b47daa00.599278",
+        "name": "Get current mode",
+        "server": "4bb170bf.b1e9d",
+        "version": 3,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "sensor.baxi_thermostat_current_mode",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "mode",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 610,
+        "y": 1700,
+        "wires": [
+            [
+                "3f7d4fe80412c2b8",
+                "348d92d180f28202"
+            ]
+        ]
+    },
+    {
+        "id": "4b984c74daf3e69c",
+        "type": "switch",
+        "z": "b47daa00.599278",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "manual",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "schedule",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 950,
+        "y": 1700,
+        "wires": [
+            [
+                "5566e0e290d42c85"
+            ],
+            [
+                "6ab1ac2d556ec36a"
+            ]
+        ]
+    },
+    {
+        "id": "348d92d180f28202",
+        "type": "debug",
+        "z": "b47daa00.599278",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 810,
+        "y": 1760,
+        "wires": []
+    },
+    {
+        "id": "5566e0e290d42c85",
+        "type": "template",
+        "z": "b47daa00.599278",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\"roomTemperatureSetpoint\":9}",
+        "output": "str",
+        "x": 1120,
+        "y": 1660,
+        "wires": [
+            [
+                "ebabac30bb2b14e1"
+            ]
+        ]
+    },
+    {
+        "id": "6ab1ac2d556ec36a",
+        "type": "template",
+        "z": "b47daa00.599278",
+        "name": "Schedule 1",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\"currentHeatingTimeProgram\":1}",
+        "output": "str",
+        "x": 1130,
+        "y": 1720,
+        "wires": [
+            [
+                "15746934db535f9d"
+            ]
+        ]
+    },
+    {
+        "id": "ebabac30bb2b14e1",
+        "type": "http request",
+        "z": "b47daa00.599278",
+        "name": "Manual mode",
+        "method": "PUT",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://ruapi.remoteapp.bdrthermea.com/v1.0/central-heating-zone/1E10FFFFFFFF010/setpoint/manual",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 1300,
+        "y": 1660,
+        "wires": [
+            [
+                "983c74e94cd49aeb"
+            ]
+        ]
+    },
+    {
+        "id": "15746934db535f9d",
+        "type": "http request",
+        "z": "b47daa00.599278",
+        "name": "Schedule mode",
+        "method": "PUT",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://ruapi.remoteapp.bdrthermea.com/v1.0/central-heating-zone/1E10FFFFFFFF010/setpoint/schedule",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 1300,
+        "y": 1720,
+        "wires": [
+            [
+                "94898fdec2f49191"
+            ]
+        ]
+    },
+    {
+        "id": "983c74e94cd49aeb",
+        "type": "mqtt out",
+        "z": "b47daa00.599278",
+        "name": "Update",
+        "topic": "home/thermostat_baxi_connect/status/update",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "99ab3ff6.4455d",
+        "x": 1480,
+        "y": 1660,
+        "wires": []
+    },
+    {
+        "id": "2043a724a8ab8296",
+        "type": "comment",
+        "z": "b47daa00.599278",
+        "name": "No change if override",
+        "info": "",
+        "x": 840,
+        "y": 1660,
+        "wires": []
+    },
+    {
+        "id": "94898fdec2f49191",
+        "type": "mqtt out",
+        "z": "b47daa00.599278",
+        "name": "Update",
+        "topic": "home/thermostat_baxi_connect/status/update",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "99ab3ff6.4455d",
+        "x": 1480,
+        "y": 1720,
+        "wires": []
+    },
+    {
+        "id": "3f7d4fe80412c2b8",
+        "type": "switch",
+        "z": "b47daa00.599278",
+        "name": "",
+        "property": "mode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "temporary-override",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 790,
+        "y": 1700,
+        "wires": [
+            [],
+            [
+                "4b984c74daf3e69c"
+            ]
+        ]
+    },
+    {
+        "id": "4667c05fa4f4daf1",
+        "type": "comment",
+        "z": "b47daa00.599278",
+        "name": "Change pairing key here",
+        "info": "",
+        "x": 450,
+        "y": 1580,
+        "wires": []
+    },
+    {
+        "id": "d043030e982635d4",
+        "type": "comment",
+        "z": "b47daa00.599278",
+        "name": "Change pairing key here",
+        "info": "",
+        "x": 450,
+        "y": 1780,
+        "wires": []
+    },
+    {
+        "id": "ffe702d072f5cd2c",
+        "type": "inject",
+        "z": "b47daa00.599278",
+        "name": "Read",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "300",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 380,
+        "wires": [
+            [
+                "c00ad643.7b2338"
+            ]
+        ]
+    },
+    {
+        "id": "0fd63bce55f9d64e",
+        "type": "function",
+        "z": "b47daa00.599278",
+        "name": "Displayed mode text",
+        "func": "var connectionStatus = global.get(\"savedConnectionStatus\");\nvar filtered_mode = global.get(\"filtered_mode\");\n\nif(connectionStatus == \"connected_to_appliance\"){\n        msg.payload = filtered_mode;\n} else{\n    msg.payload = \"disconnected\";\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1880,
+        "y": 680,
+        "wires": [
+            [
+                "2aa13ddf.3f30d2",
+                "c07626db25165ce1"
+            ]
+        ]
+    },
+    {
+        "id": "c07626db25165ce1",
+        "type": "debug",
+        "z": "b47daa00.599278",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2090,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "99ab3ff6.4455d",
+        "type": "mqtt-broker",
+        "name": "MQTT HA Server",
+        "broker": "192.168.68.24",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "compatmode": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "4bb170bf.b1e9d",
+        "type": "server",
+        "name": "Home Assistant",
+        "version": 2,
+        "addon": true,
+        "rejectUnauthorizedCerts": true,
+        "ha_boolean": "y|yes|true|on|home|open",
+        "connectionDelay": true,
+        "cacheJson": true,
+        "heartbeat": false,
+        "heartbeatInterval": 30
+    }
+]

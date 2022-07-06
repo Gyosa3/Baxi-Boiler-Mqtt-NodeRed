@@ -1,0 +1,35 @@
+alias: Control Boiler Mode
+description: ''
+trigger:
+  - platform: time_pattern
+    hours: /1
+condition:
+  - condition: state
+    entity_id: input_boolean.chaudiere_mode_auto
+    state: 'on'
+  - condition: not
+    conditions:
+      - condition: state
+        entity_id: sensor.baxi_thermostat_current_display_mode
+        state: disconnected
+action:
+  - if:
+      - condition: and
+        conditions:
+          - condition: state
+            entity_id: input_boolean.home_occupation
+            state: 'on'
+          - condition: numeric_state
+            entity_id: sensor.baxi_thermostat_current_temperature
+            below: '22'
+    then:
+      - service: mqtt.publish
+        data:
+          topic: home/thermostat_baxi_connect/current_mode/set
+          payload: schedule
+    else:
+      - service: mqtt.publish
+        data:
+          topic: home/thermostat_baxi_connect/current_mode/set
+          payload: manual
+mode: single
